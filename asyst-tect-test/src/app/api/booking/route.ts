@@ -1,4 +1,4 @@
-import { createBooking, deleteBookingById, getBooking } from "@/utils/data";
+import { createBooking, deleteBookingById, getBooking, updateBooking } from "@/utils/data";
 import { randomUUID } from "crypto";
 import { Noto_Kufi_Arabic } from "next/font/google";
 import { NextRequest, NextResponse } from "next/server";
@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
         }
     } catch (err) {
         if (err instanceof Error){
-            console.log(err.message);
-            return NextResponse.json({ message: "error", }, { status: 400 })
+            const errorMessage = err.message
+            return NextResponse.json({ message: "error", errorMessage}, { status: 400 })
         }
     }
 }
@@ -70,10 +70,7 @@ export async function POST(req: NextRequest) {
 
 export async function UPDATE(req: NextRequest) {
     try {
-        req.formData
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
-
+        
 
 
     } catch (err) {
