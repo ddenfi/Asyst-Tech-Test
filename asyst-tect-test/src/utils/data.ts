@@ -15,7 +15,7 @@ type BookingModel = {
   bookingDate: string,
   bookingStatus: string,
   bookingClass: string,
-  flightInfo: Flight
+  flightInfo?: Flight
 }
 
 let flights: Flight[] = [

@@ -1,10 +1,11 @@
-import { deleteBookingById, getBooking } from "@/utils/data";
+import { createBooking, deleteBookingById, getBooking } from "@/utils/data";
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 interface BookingRequestModel {
-    bookingName:string,
-    bookingClass:string,
-    bookingDate:string,
+    bookingName: string,
+    bookingClass: string,
+    bookingDate: string,
     flightId: string
 }
 
@@ -24,7 +25,7 @@ export async function DELETE(req: NextRequest) {
 
         if (id) deleteBookingById(id); else throw Error("Booking Not Found")
 
-        return NextResponse.json({ message: "success"}, { status: 200 })
+        return NextResponse.json({ message: "success" }, { status: 200 })
     } catch (err) {
         return NextResponse.json({ message: "error", err }, { status: 400 })
     }
@@ -32,10 +33,22 @@ export async function DELETE(req: NextRequest) {
 
 export async function UPDATE(req: NextRequest) {
     try {
-        if (req.body){
-            const {bookingName,bookingClass,bookingDate,flightId} = req.json();
-        } 
-          
+        if (req.body) {
+            const json = await req.json()
+            const jsonObj = JSON.parse(json)
+            const booking = jsonObj as BookingRequestModel
+
+            const bookingId = "123"
+            const bookingStatus = "Pending"
+
+            createBooking({
+                bookingId: bookingId,
+                bookingClass: booking.bookingClass,
+                bookingDate: booking.bookingDate,
+                bookingName: booking.bookingName,
+                bookingStatus: bookingStatus
+            })
+        }
     } catch (err) {
         return NextResponse.json({ message: "error", err }, { status: 400 })
     }
