@@ -1,4 +1,4 @@
-import { createBooking, deleteBookingById, getBooking } from "@/utils/data";
+import { BookingModel, createBooking, deleteBookingById, getBooking, updateBooking } from "@/utils/data";
 import { randomUUID } from "crypto";
 import { Noto_Kufi_Arabic } from "next/font/google";
 import { NextRequest, NextResponse } from "next/server";
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
                 bookingDate: requestBody.bookingDate,
                 bookingName: requestBody.bookingName,
                 bookingStatus: bookingStatus,
-                flightInfo:{
+                flightInfo: {
                     flightId: "FD1003",
                     flightNumber: "DL567",
                     airline: "Delta Air Lines",
@@ -54,13 +54,13 @@ export async function POST(req: NextRequest) {
                     departureTime: "2024-01-05T15:00:00",
                     arrivalTime: "2024-01-05T18:15:00",
                     aircraft: "Boeing 757"
-                  }
+                }
             })
 
-            return NextResponse.json({ message: "success", requestBody}, { status: 200 })
+            return NextResponse.json({ message: "success", requestBody }, { status: 200 })
         }
     } catch (err) {
-        if (err instanceof Error){
+        if (err instanceof Error) {
             console.log(err.message);
             return NextResponse.json({ message: "error", }, { status: 400 })
         }
@@ -70,10 +70,28 @@ export async function POST(req: NextRequest) {
 
 export async function UPDATE(req: NextRequest) {
     try {
-        req.formData
         const { searchParams } = new URL(req.url);
         const id = searchParams.get("id");
 
+        const requestBody = await req.json() as BookingRequestModel
+
+        updateBooking(<BookingModel>{
+            bookingId: id!,
+            bookingClass: requestBody.bookingClass,
+            bookingDate: requestBody.bookingDate,
+            bookingName: requestBody.bookingName,
+            bookingStatus: "Pending",
+            flightInfo: {
+                flightId: "FD1003",
+                flightNumber: "DL567",
+                airline: "Delta Air Lines",
+                departureAirport: "ATL",
+                arrivalAirport: "MIA",
+                departureTime: "2024-01-05T15:00:00",
+                arrivalTime: "2024-01-05T18:15:00",
+                aircraft: "Boeing 757"
+            }
+        })
 
 
     } catch (err) {

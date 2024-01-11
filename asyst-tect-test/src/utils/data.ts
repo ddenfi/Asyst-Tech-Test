@@ -9,7 +9,7 @@ type Flight = {
   aircraft: string,
 }
 
-type BookingModel = {
+export interface BookingModel {
   bookingName: string,
   bookingId: string,
   bookingDate: string,
