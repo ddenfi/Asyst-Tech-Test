@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
         }
     } catch (err) {
         if (err instanceof Error) {
-            console.log(err.message);
-            return NextResponse.json({ message: "error", }, { status: 400 })
+            const errorMessage = err.message
+            return NextResponse.json({ message: "error", errorMessage }, { status: 400 })
         }
     }
 }
